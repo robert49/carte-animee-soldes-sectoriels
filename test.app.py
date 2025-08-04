@@ -78,7 +78,7 @@ else:
 ### Explication de la Simplification Radicale
 
 1.  **Imports Supprimés :** `import plotly.graph_objects as go` a été **supprimé**. C'est la source de l'erreur. `numpy` a aussi été retiré car plus nécessaire.
-2.  **Fonctionnalités Supprimées :** Pour ne plus dépendre de `plotly.graph_objects`, j'ai dû supprimer :
+2.  **Fonctionnalités Supprimées :** Pour ne plus dépendre de `plotly.graph_objects`, j ai dû supprimer :
     *   La coloration par niveau de revenu (qui nécessitait le PIB/habitant).
     *   Le dénombrement des pays par quadrant.
     *   La légende personnalisée.
@@ -96,5 +96,6 @@ else:
     openpyxl
     ```
 3.  **Allez sur Streamlit Cloud, supprimez l'application, et redéployez-la.**
+
 
 Si cette version ultra-simplifiée fonctionne, cela confirmera que le problème vient d'une dépendance complexe de `plotly.graph_objects`. Nous pourrons alors, si vous le souhaitez, réintroduire les fonctionnalités une par une pour voir laquelle cause le conflit. Mais l'objectif premier est d'avoir une application qui se lance.
