@@ -95,9 +95,10 @@ else:
     plotly
     openpyxl
     ```
-3.  **Allez sur Streamlit Cloud, supprimez l'application, et redéployez-la.**
+3.  **Allez sur Streamlit Cloud, supprimez l application, et redéployez-la.**
 
 
 Si cette version ultra-simplifiée fonctionne, cela confirmera que le problème vient d'une dépendance complexe de `plotly.graph_objects`. Nous pourrons alors, si vous le souhaitez, réintroduire les fonctionnalités une par une pour voir laquelle cause le conflit. Mais l'objectif premier est d'avoir une application qui se lance.
+
 
 
