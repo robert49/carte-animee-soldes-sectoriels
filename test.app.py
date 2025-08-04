@@ -88,7 +88,7 @@ else:
 ### L'Étape Finale (la dernière)
 
 1.  **Mettez à jour votre fichier `app.py`** sur GitHub avec ce nouveau code simplifié.
-2.  **Mettez à jour votre fichier `requirements.txt`** pour qu'il ne contienne que le strict minimum (cela peut aider à éviter les conflits) :
+2.  **Mettez à jour votre fichier `requirements.txt`** pour qu il ne contienne que le strict minimum (cela peut aider à éviter les conflits) :
     ```
     streamlit
     pandas
@@ -99,4 +99,5 @@ else:
 
 
 Si cette version ultra-simplifiée fonctionne, cela confirmera que le problème vient d'une dépendance complexe de `plotly.graph_objects`. Nous pourrons alors, si vous le souhaitez, réintroduire les fonctionnalités une par une pour voir laquelle cause le conflit. Mais l'objectif premier est d'avoir une application qui se lance.
+
 
