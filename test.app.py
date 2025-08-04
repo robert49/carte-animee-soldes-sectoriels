@@ -15,7 +15,6 @@ def load_data():
         df = pd.read_excel(excel_file)
         df.columns = df.columns.str.strip()
         df.rename(columns={'Année': 'Year', 'Pays': 'Country', 'SoldeCourant': 'CurrentAccountBalance', 'SoldeBudgétaire': 'BudgetBalance'}, inplace=True)
-        # On ne garde que les colonnes strictement nécessaires
         cols_to_keep = ['Year', 'Country', 'CurrentAccountBalance', 'BudgetBalance']
         df = df[cols_to_keep]
         for col in ['CurrentAccountBalance', 'BudgetBalance']:
@@ -73,33 +72,4 @@ else:
     fig.update_xaxes(zeroline=True, zerolinewidth=2, zerolinecolor='grey')
     fig.update_yaxes(zeroline=True, zerolinewidth=2, zerolinecolor='grey')
     
-    st.plotly_chart(fig, use_container_width=True)```
-
-### Explication de la Simplification Radicale
-
-1.  **Imports Supprimés :** `import plotly.graph_objects as go` a été **supprimé**. C'est la source de l'erreur. `numpy` a aussi été retiré car plus nécessaire.
-2.  **Fonctionnalités Supprimées :** Pour ne plus dépendre de `plotly.graph_objects`, j ai dû supprimer :
-    *   La coloration par niveau de revenu (qui nécessitait le PIB/habitant).
-    *   Le dénombrement des pays par quadrant.
-    *   La légende personnalisée.
-    *   Le contrôle de la vitesse et la fluidité.
-3.  **Recentrage sur l'Essentiel :** Ce code ne fait plus qu'une seule chose, mais il devrait la faire sans erreur : **afficher l animation de base**.
-
-### L'Étape Finale (la dernière)
-
-1.  **Mettez à jour votre fichier `app.py`** sur GitHub avec ce nouveau code simplifié.
-2.  **Mettez à jour votre fichier `requirements.txt`** pour qu il ne contienne que le strict minimum (cela peut aider à éviter les conflits) :
-    ```
-    streamlit
-    pandas
-    plotly
-    openpyxl
-    ```
-3.  **Allez sur Streamlit Cloud, supprimez l application, et redéployez-la.**
-
-
-Si cette version ultra-simplifiée fonctionne, cela confirmera que le problème vient d'une dépendance complexe de `plotly.graph_objects`. Nous pourrons alors, si vous le souhaitez, réintroduire les fonctionnalités une par une pour voir laquelle cause le conflit. Mais l'objectif premier est d avoir une application qui se lance.
-
-
-
-
+    st.plotly_chart(fig, use_container_width=True)
