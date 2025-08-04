@@ -15,6 +15,7 @@ def load_data():
         df = pd.read_excel(excel_file)
         df.columns = df.columns.str.strip()
         df.rename(columns={'Année': 'Year', 'Pays': 'Country', 'SoldeCourant': 'CurrentAccountBalance', 'SoldeBudgétaire': 'BudgetBalance'}, inplace=True)
+        # On ne garde que les colonnes strictement nécessaires
         cols_to_keep = ['Year', 'Country', 'CurrentAccountBalance', 'BudgetBalance']
         df = df[cols_to_keep]
         for col in ['CurrentAccountBalance', 'BudgetBalance']:
