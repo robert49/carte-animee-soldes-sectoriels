@@ -83,7 +83,7 @@ else:
     *   Le dénombrement des pays par quadrant.
     *   La légende personnalisée.
     *   Le contrôle de la vitesse et la fluidité.
-3.  **Recentrage sur l'Essentiel :** Ce code ne fait plus qu'une seule chose, mais il devrait la faire sans erreur : **afficher l'animation de base**.
+3.  **Recentrage sur l'Essentiel :** Ce code ne fait plus qu'une seule chose, mais il devrait la faire sans erreur : **afficher l animation de base**.
 
 ### L'Étape Finale (la dernière)
 
@@ -99,3 +99,4 @@ else:
 
 
 Si cette version ultra-simplifiée fonctionne, cela confirmera que le problème vient d'une dépendance complexe de `plotly.graph_objects`. Nous pourrons alors, si vous le souhaitez, réintroduire les fonctionnalités une par une pour voir laquelle cause le conflit. Mais l'objectif premier est d'avoir une application qui se lance.
+
