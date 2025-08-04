@@ -19,11 +19,19 @@
     <script>
       stlite.mount(
         {
-          requirements: ["pandas", "plotly", "numpy", "openpyxl"],
-          entrypoint: "app.py",
+          // On liste les bibliothèques Python nécessaires
+          requirements: ["pandas", "plotly", "numpy", "openpyxl"], 
+          
+          // Fichier Python principal à exécuter
+          entrypoint: "app.py", 
+          
+          // Liste de tous les fichiers nécessaires à l'application
           files: {
+            // Fichier 1 : Votre script Python
             "app.py": `
-# # --- APPLICATION WEB INTERACTIVE DES SOLDES SECTORIELS (Version Finale, Complète et Fluide) ---
+
+# --- DÉBUT DE VOTRE CODE PYTHON ---
+# --- APPLICATION WEB INTERACTIVE DES SOLDES SECTORIELS (Version Finale, Complète et Fluide) ---
 
 import streamlit as st
 import pandas as pd
@@ -573,10 +581,19 @@ else:
         st.info(T['Panneau_controle'])
     else:
         st.warning("Aucune donnée d'animation n'a pu être générée.")
+# (Celui qui commence par "import streamlit as st...")
+# --- FIN DE VOTRE CODE PYTHON ---
+
             `,
+
+            // --- DÉBUT DE LA SECTION CORRIGÉE ---
+            // Fichier 2 : Votre fichier de données Excel
+            // Assurez-vous que le nom ici est EXACTEMENT le même que celui de votre fichier sur GitHub
             "donnees_macro_1980-2029_filtrees.xlsx": {
+              // On indique l'URL relative du fichier sur le site GitHub Pages
               url: "donnees_macro_1980-2029_filtrees.xlsx"
             }
+            // --- FIN DE LA SECTION CORRIGÉE ---
           },
         },
         document.getElementById("root")
