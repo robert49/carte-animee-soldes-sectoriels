@@ -1,8 +1,7 @@
-# --- APPLICATION WEB INTERACTIVE DES SOLDES SECTORIELS (Version Ultra-Simplifiée) ---
+# --- APPLICATION WEB INTERACTIVE DES SOLDES SECTORIELS (Version sans Plotly) ---
 
 import streamlit as st
 import pandas as pd
-import plotly.express as px
 
 # --- CONFIGURATION DE LA PAGE ---
 st.set_page_config(layout="wide", page_title="Carte des Modèles Économiques")
@@ -15,10 +14,7 @@ def load_data():
         df = pd.read_excel(excel_file)
         df.columns = df.columns.str.strip()
         df.rename(columns={'Année': 'Year', 'Pays': 'Country', 'SoldeCourant': 'CurrentAccountBalance', 'SoldeBudgétaire': 'BudgetBalance'}, inplace=True)
-        # On ne garde que les colonnes strictement nécessaires
-        cols_to_keep = ['Year', 'Country', 'CurrentAccountBalance', 'BudgetBalance']
-        df = df[cols_to_keep]
-        for col in ['CurrentAccountBalance', 'BudgetBalance']:
+        for col in ['CurrentAccountBalance', 'BudgetBalance', 'PIB/habitant']:
             df[col] = pd.to_numeric(df[col], errors='coerce')
         df.dropna(subset=['CurrentAccountBalance', 'BudgetBalance', 'Country', 'Year'], inplace=True)
         df['Year'] = df['Year'].astype(int)
@@ -32,7 +28,15 @@ df_all = load_data()
 # --- 2. PANNEAU DE CONTRÔLE DANS LA BARRE LATÉRALE ---
 st.sidebar.title("Panneau de Contrôle")
 annees_disponibles = sorted(df_all['Year'].unique())
-annee_debut, annee_fin = st.sidebar.select_slider('Sélectionnez la période :', options=annees_disponibles, value=(2018, 2024))
+
+# On utilise un slider simple pour sélectionner UNE SEULE année (pas d'animation)
+annee_choisie = st.sidebar.slider(
+    'Sélectionnez une année :',
+    min_value=min(annees_disponibles),
+    max_value=max(annees_disponibles),
+    value=max(annees_disponibles)
+)
+
 groupes_de_pays = {
     "Monde Entier": sorted(df_all['Country'].unique()),
     "G7": ['Canada', 'France', 'Germany', 'Italy', 'Japan', 'United Kingdom', 'United States'],
@@ -41,36 +45,27 @@ groupe_choisi = st.sidebar.selectbox("Choisir un groupe de pays :", options=list
 pays_selectionnes = st.sidebar.multiselect("Choisir un ou plusieurs pays :", options=groupes_de_pays[groupe_choisi], default=groupes_de_pays[groupe_choisi])
 
 # --- 3. FILTRAGE FINAL DES DONNÉES ---
-df_animation = df_all[(df_all['Year'] >= annee_debut) & (df_all['Year'] <= annee_fin) & (df_all['Country'].isin(pays_selectionnes))].copy()
-df_animation.sort_values(by=["Year", "Country"], inplace=True)
+df_display = df_all[
+    (df_all['Year'] == annee_choisie) &
+    (df_all['Country'].isin(pays_selectionnes))
+].copy()
 
 # --- 4. AFFICHAGE DE L'APPLICATION ---
-st.title("Carte Animée des Modèles Économiques Mondiaux")
-st.markdown(f"Visualisation de l'évolution de **{len(pays_selectionnes)} pays** sur la période **{annee_debut}-{annee_fin}**.")
+st.title("Carte Statique des Modèles Économiques Mondiaux")
+st.markdown(f"Visualisation de **{len(pays_selectionnes)} pays** pour l'année **{annee_choisie}**.")
 
-if df_animation.empty:
-    st.warning("Aucune donnée disponible pour la sélection et la période choisies.")
+if df_display.empty:
+    st.warning("Aucune donnée disponible pour la sélection et l'année choisies.")
 else:
-    fig = px.scatter(
-        df_animation, 
-        x="CurrentAccountBalance", 
-        y="BudgetBalance",
-        animation_frame="Year", 
-        animation_group="Country",
-        hover_name="Country",
-        range_x=[-30, 30], 
-        range_y=[-30, 30]
-    )
-
-    fig.update_layout(
-        xaxis_title="Solde de la balance courante (% du PIB)",
-        yaxis_title="Solde budgétaire public (% du PIB)",
-        title=f"Trajectoire des pays du groupe '{groupe_choisi}'",
-        width=800, height=800
+    # On prépare les données pour le graphique de Streamlit
+    df_chart = df_display.set_index('Country')[['CurrentAccountBalance', 'BudgetBalance']]
+    
+    st.scatter_chart(
+        df_chart,
+        x='CurrentAccountBalance',
+        y='BudgetBalance',
+        size=100, # Taille fixe pour les points
+        height=600
     )
     
-    fig.add_shape(type="line", x0=-30, y0=-30, x1=30, y1=30, line=dict(color="black", width=2, dash="dash"))
-    fig.update_xaxes(zeroline=True, zerolinewidth=2, zerolinecolor='grey')
-    fig.update_yaxes(zeroline=True, zerolinewidth=2, zerolinecolor='grey')
-    
-    st.plotly_chart(fig, use_container_width=True)
+    st.info("Ce graphique montre la position des pays pour l'année sélectionnée.")
