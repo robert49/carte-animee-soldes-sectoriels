@@ -4,3 +4,9 @@ plotly
 numpy
 openpyxl
 scipy
+
+pandas
+plotly
+streamlit
+pandas-datareader
+
