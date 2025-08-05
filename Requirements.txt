@@ -10,3 +10,11 @@ plotly
 streamlit
 pandas-datareader
 
+pandas
+plotly
+streamlit
+yfinance
+pandas-datareader
+prophet
+
+
