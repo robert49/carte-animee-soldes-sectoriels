@@ -1,6 +1,56 @@
+Hugging Face's logo
+Hugging Face
+
+Search models, datasets, users...
+⌘K
+Models
+Datasets
+Spaces
+Buckets
+Docs
+Enterprise
+Pricing
+
+
+ 
+Spaces:
+Rcauneau
+/
+carte_soldes_sectoriels
+
+
+Like
+0
+
+Logs
+App
+
+Files
+Community
+Settings
+carte_soldes_sectoriels
+/
+app.py 
+Rcauneau's picture
+Rcauneau
+Upload app.py
+ad99edb
+VERIFIED
+2 days ago
+
+Download
+
+Raw
+History
+Blame
+Edit
+Delete
+
+30 kB
 # --- APPLICATION WEB INTERACTIVE DES SOLDES SECTORIELS (Version Finale, Complète et Fluide) ---
 
 import streamlit as st
+import streamlit.components.v1 as components
 import pandas as pd
 import plotly.graph_objects as go
 import numpy as np
@@ -39,6 +89,7 @@ TEXTS = {
         'trajectory_label': "Trajectoire des pays du groupe",
         'Whole_world': "Monde entier",
         'Europe': "Union Européenne",
+        'Zone Euro': "Zone Euro",
         'FCFA': "Zone CFA",
         'Slow': "Lente",
         'Normal': "Normale",
@@ -61,26 +112,18 @@ TEXTS = {
         'guide_content': """        
         ### Guide d'Utilisation de la Carte Animée
 Bienvenue sur la Carte Animée des Modèles Économiques Mondiaux. Cet outil interactif vous permet d'explorer les dynamiques des soldes sectoriels pour près de 200 pays de 1980 à 2024.
-
-Pour une analyse approfondie des concepts présentés ici, nous vous invitons à lire l'article complet : **[Le Déficit face au Réel : La Preuve par la Carte](https://mmt-france.org/2025/07/26/le-deficit-face-au-reel-la-preuve-par-la-carte/)**.
+Pour une analyse approfondie des concepts présentés ici, nous vous invitons à lire l'article complet : **[Le Déficit est la position naturelle du budget de l'Etat](https://mmt-france.org/2025/07/19/le-deficit-est-la-position-naturelle-du-budget-de-letat/)**.
         
 #### 1. Comprendre la Carte : Le Décodeur à 4 Quadrants
-
 Ce graphique est une "carte" qui décode la structure économique d'un pays en un seul coup d'œil.
-
 *   **L'axe vertical** représente le **Solde Public**. En bas, l'État est en déficit ; en haut, il est en excédent.
 *   **L'axe horizontal** représente le **Solde Extérieur**. À gauche, le pays est en déficit avec le monde ; à droite, il est en excédent.
-
 La position du **Secteur Privé** (ménages et entreprises) se lit par rapport à la **diagonale en pointillés** :
 *   **Au-dessus de la diagonale (Zone Orange 🟠) :** Le secteur privé, collectivement, **s'endette**.
 *   **En dessous de la diagonale (Zone Verte 🟢) :** Le secteur privé, collectivement, **épargne**.
-
 *La règle d'or : la somme de ces trois soldes est toujours nulle.*
-
 #### 2. Utiliser l'Application : Votre Tableau de Bord
-
 Le **Panneau de Contrôle** situé à gauche vous donne une liberté totale.
-
 *   **Sélectionnez la Période :** Utilisez le **curseur temporel**.
 *   **Choisissez la Vitesse :** Utilisez le menu déroulant.
 *   **Explorez les Groupes :** Le menu **"Choisir un groupe de pays"** est le meilleur point de départ.
@@ -88,7 +131,9 @@ Le **Panneau de Contrôle** situé à gauche vous donne une liberté totale.
 *   **Affichez les Noms :** Cochez la case **"Afficher les noms des pays"**.
 *   **Naviguez dans l'Animation :** Utilisez les boutons **▶️ Play** et **⏸️ Pause** et le **curseur sous le graphique**.
 *   **Survolez un point** avec votre souris pour voir le nom du pays.
-
+#### 3. Quelques informations pratiques
+*   Les données de certains pays ne sont pas disponibles, notamment pour les premières années, à partir de 1980. Cela se traduit, pour les pays concernés, par une entrée en jeu différée, dans l'hypothèse où l'animation part de 1980.
+*   Un clic sur le bouton "clear all" est nécessaire pour vider la liste des pays du monde entier et ainsi permettre le choix individuel d'un ou de plusieurs pays. 
 Je vous souhaite une excellente exploration !
         
         
@@ -120,13 +165,14 @@ Je vous souhaite une excellente exploration !
         'lower_middle_income_group': "Lower-Middle Income Countries",
         'low_income_group': "Low Income Countries",
         'high_income_label': 'High Income',
-        'upper_middle_income_label': 'Upper-middle Income',
-        'lower_middle_income_label': 'Lower-middle Income',
+        'upper_middle_income_label': 'Upper middle Income',
+        'lower_middle_income_label': 'Lower middle Income',
         'low_income_label': 'Low Income',
         'unknown_income_label': 'Unknown',
         'trajectory_label': "Trajectory of the group's countries",
         'Whole_world': "Whole world",
         'Europe': "European Union",
+        'Zone Euro': "Euro Area",
         'FCFA': "CFA Zone",
         'Slow': "Slow",
         'Normal': "Normal",
@@ -149,33 +195,26 @@ Je vous souhaite une excellente exploration !
         'guide_content': """        
         ### Animated Map User Guide
 Welcome to the Animated Map of Global Economic Models. This interactive tool allows you to explore the dynamics of sectoral balances for nearly 200 countries from 1980 to 2024.
-
-For an in-depth analysis of the concepts presented here, we invite you to read the full article: **[The Deficit vs. Reality: The Map's Proof](https://mmt-france.org/2025/07/26/the-public-deficit-vs-reality-proof-by-the-map/)**.
-
+For an in-depth analysis of the concepts presented here, we invite you to read the full article: **[The Deficit is the natural position of the state budget](https://mmt-france.org/2025/07/19/the-deficit-is-the-natural-position-of-the-state-budget/)**.
 #### 1. Understanding the Map: The 4-Quadrant Decoder
-
 This graph is a "map" that decodes a country's economic structure at a glance.
-
 * **The vertical axis** represents the **Public Balance**. At the bottom, the government is in deficit; at the top, it is in surplus.
 * **The horizontal axis** represents the **External Balance**. On the left, the country is in deficit with the world; on the right, it is in surplus.
-
 The position of the **Private Sector** (households and businesses) is read in relation to the **dotted diagonal**:
 * **Above the diagonal (Orange Zone 🟠):** The private sector, collectively, **is in debt**.
 * **Below the diagonal (Green Zone 🟢):** The private sector, collectively, **saves**.
-
 *The golden rule: the sum of these three balances is always zero.*
-
 #### 2. Using the App: Your Dashboard
-
 The **Control Panel** on the left gives you complete freedom.
-
 * **Select the Period:** Use the **time slider**.
 * **Choose the Speed:** Use the drop-down menu. * **Explore the Groups:** The **"Choose a country group"** menu is the best starting point.
 * **Create your Comparisons:** Use the **"Choose one or more countries"** field for customized analyses.
 * **Display Names:** Check the **"Display country names"** box.
 * **Navigate the Animation:** Use the **▶️ Play** and **⏸️ Pause** buttons and the **slider below the graph**.
 * **Hover your mouse over a point** to see the country name.
-
+#### 3. Some practical information
+*  Data for some countries are not available, particularly for the early years, starting in 1980. This results in a delayed start for the countries concerned, assuming the data begins in 1980.
+*  Clicking the "clear all" button is required to clear the list of countries worldwide and thus allow you to individually select one or more countries.
 I hope you enjoy exploring!
         """, # <--- N'oubliez pas la virgule ici
 
@@ -207,12 +246,33 @@ T = TEXTS[lang_code]
 
 st.set_page_config(layout="wide", page_title=T['page_title'])
 
+# --- MESURE ANONYME DE LA FRÉQUENTATION ---
+# Une consultation est envoyée une seule fois par session Streamlit.
+# GoatCounter fonctionne sans cookie ni identifiant personnel persistant.
+if "goatcounter_pageview_sent" not in st.session_state:
+    components.html(
+        """
+        <script
+            data-goatcounter="https://rcauneau.goatcounter.com/count"
+            data-goatcounter-settings='{
+                "allow_frame": true,
+                "path": "/carte-soldes-sectoriels",
+                "title": "Carte animée des soldes sectoriels"
+            }'
+            async
+            src="https://gc.zgo.at/count.js">
+        </script>
+        """,
+        height=0,
+    )
+    st.session_state["goatcounter_pageview_sent"] = True
+
 # --- 1. CHARGEMENT ET PRÉPARATION DES DONNÉES ---
 @st.cache_data
 def load_data():
-    excel_file = "donnees_macro_1980-2029_filtrees.xlsx"
+    excel_file = "data.xlsx"
     try:
-        df = pd.read_excel(excel_file)
+        df = pd.read_excel(excel_file, engine='openpyxl')
         df.columns = df.columns.str.strip()
         df.rename(columns={'Année': 'Year', 'Pays': 'Country', 'SoldeCourant': 'CurrentAccountBalance', 'SoldeBudgétaire': 'BudgetBalance'}, inplace=True)
         for col in ['CurrentAccountBalance', 'BudgetBalance', 'PIB/habitant']:
@@ -264,6 +324,7 @@ pays_revenu_faible = sorted(df_all[df_all['Niveau_Revenu'] == T['low_income_labe
 groupes_de_pays = {
     T['Whole_world']: sorted(df_all['Country'].unique()),
     T['Europe']: ['Austria', 'Belgium', 'Bulgaria', 'Croatia', 'Cyprus', 'Czechia', 'Denmark', 'Estonia', 'Finland', 'France', 'Germany', 'Greece', 'Hungary', 'Ireland', 'Italy', 'Latvia', 'Lithuania', 'Luxembourg', 'Malta', 'Netherlands', 'Poland', 'Portugal', 'Romania', 'Slovakia', 'Slovenia', 'Spain', 'Sweden'],
+    T['Zone Euro']: ['Austria', 'Belgium', 'Croatia', 'Cyprus', 'Estonia', 'Finland', 'France', 'Germany', 'Greece', 'Ireland', 'Italy', 'Latvia', 'Lithuania', 'Luxembourg', 'Malta', 'Netherlands', 'Portugal', 'Slovakia', 'Slovenia', 'Spain'],
     T['FCFA']: ['Benin', 'Burkina Faso', "Cote d'Ivoire", 'Guinea-Bissau', 'Mali', 'Niger', 'Senegal', 'Togo', 'Cameroon', 'Central African Republic', 'Chad', 'Congo, Republic of', 'Equatorial Guinea', 'Gabon', 'Comoros'],
     "G20": ['Argentina', 'Australia', 'Brazil', 'Canada', 'China', 'France', 'Germany', 'India', 'Indonesia', 'Italy', 'Japan', 'Korea, Rep.', 'Mexico', 'Russia', 'Saudi Arabia', 'South Africa', 'Turkey', 'UK', 'USA'],
     "G7": ['Canada', 'France', 'Germany', 'Italy', 'Japan', 'UK', 'USA'],
@@ -271,7 +332,7 @@ groupes_de_pays = {
     # On ajoute les nouvelles catégories au dictionnaire
     T['high_income_group']: pays_revenu_eleve,
     T['upper_middle_income_group']: pays_revenu_intermediaire_sup,
-    T['lower_middle_income_label']: pays_revenu_intermediaire_inf,
+    T['lower_middle_income_group']: pays_revenu_intermediaire_inf,
     T['low_income_group']: pays_revenu_faible,
 }
 # --- FIN DE LA MODIFICATION ---
@@ -432,10 +493,10 @@ else:
     
 # Dictionnaires de seuils et de couleurs
         seuils_revenu_texte_titre = {
-            T['high_income_group']: '(GDP/hab ≥ 13 846 $)',
-            T['upper_middle_income_group']: '(GDP/hab : 4 466 $ – 13 845 $)',
-            T['lower_middle_income_group']: '(GDP/hab : 1 136 $ – 4 465 $)',
-            T['low_income_group']: '(GDP/hab ≤ 1 135 $)'
+            T['high_income_group']: '(GDP/hab ≥ 13 846 \\$)',
+            T['upper_middle_income_group']: '(GDP/hab : 4 466 \\$ – 13 845 \\$)',
+            T['lower_middle_income_group']: '(GDP/hab : \\1 136 $ – 4 465 \\$)',
+            T['low_income_group']: '(GDP/hab ≤ \\1 135 $)'
         }
         # On fait correspondre les noms longs des groupes aux noms courts du color_map
         group_to_color_key = {
@@ -548,3 +609,4 @@ else:
         st.info(T['Panneau_controle'])
     else:
         st.warning("Aucune donnée d'animation n'a pu être générée.")
+
