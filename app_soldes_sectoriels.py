@@ -1,52 +1,3 @@
-Hugging Face's logo
-Hugging Face
-
-Search models, datasets, users...
-⌘K
-Models
-Datasets
-Spaces
-Buckets
-Docs
-Enterprise
-Pricing
-
-
- 
-Spaces:
-Rcauneau
-/
-carte_soldes_sectoriels
-
-
-Like
-0
-
-Logs
-App
-
-Files
-Community
-Settings
-carte_soldes_sectoriels
-/
-app.py 
-Rcauneau's picture
-Rcauneau
-Upload app.py
-ad99edb
-VERIFIED
-2 days ago
-
-Download
-
-Raw
-History
-Blame
-Edit
-Delete
-
-30 kB
 # --- APPLICATION WEB INTERACTIVE DES SOLDES SECTORIELS (Version Finale, Complète et Fluide) ---
 
 import streamlit as st
@@ -609,4 +560,3 @@ else:
         st.info(T['Panneau_controle'])
     else:
         st.warning("Aucune donnée d'animation n'a pu être générée.")
-
